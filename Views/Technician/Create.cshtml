@@ -29,7 +29,7 @@
                 </div> <br />
                 <div class="form-group">
                     <label asp-for="SubsidiaryId" class="control-label">Subsidiary</label>
-                    <input required asp-for="SubsidiaryId" class="form-control" />
+                    <select id="SubsidiaryList" required asp-for="SubsidiaryId" class="form-control"></select>
                     <span asp-validation-for="SubsidiaryId" class="text-danger"></span>
                 </div> 
             </form>

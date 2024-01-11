@@ -23,6 +23,8 @@ namespace  AppGestionFranca.Data
 
         public int SubsidiaryId { get; set; }
 
+        public virtual Subsidiary Subsidiary { get; set; }
+
         public virtual ICollection<TechnicianItem> TechnicianItems { get; set; } = new List<TechnicianItem>();
 
     }

@@ -21,5 +21,12 @@ namespace  AppGestionFranca.Controllers
             var subsidiaryDTO = subsidiary.Select(x => mapper.Map<SubsidiaryDTO>(x));
             return View(subsidiaryDTO);
         }
+
+        public JsonResult Json()
+        {
+            var subsidiary = subsidiaryRepository.GetAllAsync().Result;
+            var subsidiaryDTO = subsidiary.Select(x => mapper.Map<SubsidiaryDTO>(x));
+            return Json(subsidiaryDTO.ToDictionary(x => x.SubsidiaryId));
+        }
     }
 }
