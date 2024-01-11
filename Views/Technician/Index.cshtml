@@ -1,0 +1,145 @@
+﻿@model IEnumerable<AppGestionFranca.Data.TechnicianDTO>
+@using AppGestionFranca.Data;
+
+    @{
+        ViewData["Title"] = "Index";    
+     }   
+
+<h1>Technicians</h1>
+
+<p>
+    <button Onclick="createTechnician()" class="btn btn-success">Create Technician</button>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>  
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    <button Onclick="editTechnician(@item.TechnicianId)" class="btn btn-warning">Edit</button> |
+                    <button Onclick="deleteTechnician(@item.TechnicianId)" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="title modal " tabindex="-1" id="contentModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1></h1>
+                <button id="closeModal" type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body" id="bodyModal">
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+<script>
+
+        $('#closeModal').click(function () {
+            $("#contentModal").modal('hide');
+        });
+
+        function editTechnician(id) {
+        $("#loader").fadeIn('fast');
+        $.ajax({
+            url: '@Url.Action("Edit", "Technician")/'+id,
+            success: function (data) {
+                $('#bodyModal').html(data);
+                $("#contentModal").modal('show');
+            },
+            error: function (error) {
+                alert("Error: " + error.responseText);
+            },
+            complete: function (data) {
+                $("#loader").fadeOut('fast');
+            }
+        });
+    }
+
+        function deleteTechnician(id) {
+        $("#loader").fadeIn('fast');
+        $.ajax({
+            url: '@Url.Action("Delete", "Technician")/' + id,
+            success: function (data) {
+                $('#bodyModal').html(data);
+                $("#contentModal").modal('show');
+            },
+            error: function (error) {
+                alert("Error: " + error.responseText);
+            },
+            complete: function (data) {
+                $("#loader").fadeOut('fast');
+            }
+        });
+    }
+
+        function createTechnician() {
+        $("#loader").fadeIn('fast');
+        $.ajax({
+            url: '@Url.Action("Create", "Technician")',
+            success: function (data) {
+                $('#bodyModal').html(data);
+                $("#contentModal").modal('show');
+            },
+            error: function (error) {
+                alert("Error: " + error.responseText);
+            },
+            complete: function (data) {
+                $("#loader").fadeOut('fast');
+            }
+        });
+    }
+
+        function submitForm() {
+            $("#loader").fadeIn('fast');
+            $.ajax({
+                type: "POST",
+                url: $("#formData").attr("action"),
+                data: $("#formData").serialize(),
+                success: function (data) {
+                    if (data.code == 500) {
+                        alert("Error: " + data.message);
+                    }else{
+                        document.location.reload();
+                    }
+                },
+                error: function (error) {
+                    alert("Error: " + error.responseText);
+                },
+                complete: function (data) {
+                    $("#loader").fadeOut('fast');
+                }
+            });
+            }
+
+    </script>
+ }

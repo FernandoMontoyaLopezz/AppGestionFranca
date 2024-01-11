@@ -1,0 +1,45 @@
+﻿@model AppGestionFranca.Models.Technician
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Technician</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="formData" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TechnicianId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input required asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div><br />
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input pattern="[A-Za-z0-9]{9}" title="Incorrect code format" required asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div><br />
+             <div class="form-group">
+                <label asp-for="Salary" class="control-label"></label>
+                <input required type="number" asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div><br />
+             <div class="form-group">
+                <label asp-for="SubsidiaryId" class="control-label">Subsidiary</label>
+                <input required asp-for="SubsidiaryId" class="form-control" />
+                <span asp-validation-for="SubsidiaryId" class="text-danger"></span>
+            </div>
+        </form>
+        <hr />
+        <button Onclick="submitForm()" class="btn btn-warning">Update</button>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
